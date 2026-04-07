@@ -34,9 +34,13 @@
 
     <!-- Main Content Container -->
     <main id="app-content">
+        <!-- Ambient Background Glows -->
+        <div class="ambient-glow glow-1"></div>
+        <div class="ambient-glow glow-2"></div>
+        <div class="ambient-glow glow-3"></div>
 
         <!-- 1. HOME VIEW -->
-        <section id="home-view" class="view active">
+        <section id="home-view" class="view active reveal">
             <div class="hero">
                 <div class="hero-content">
                     <h1 class="glitch" data-text="UNLEASH YOUR POTENTIAL">UNLEASH YOUR POTENTIAL</h1>
@@ -57,14 +61,14 @@
                 </div>
                 <div class="info-card">
                     <i class="fa-solid fa-clock"></i>
-                    <h3>24/7 Access</h3>
-                    <p>Your gym, your schedule. Never miss a workout.</p>
+                    <h3>Extended Hours</h3>
+                    <p>Open everyday from 6:00 AM to 10:00 PM. Never miss a workout.</p>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT VIEW -->
-        <section id="about-view" class="view">
+        <section id="about-view" class="view reveal">
             <div class="section-title">
                 <h2>About <span class="accent">S3 Fitness</span></h2>
                 <p>More than a gym. A community of champions.</p>
@@ -91,22 +95,26 @@
         </section>
 
         <!-- CONTACT VIEW -->
-        <section id="contact-view" class="view">
+        <section id="contact-view" class="view reveal">
             <div class="section-title">
                 <h2>Get in <span class="accent">Touch</span></h2>
                 <p>We are here to help you start your journey.</p>
             </div>
-            <div class="contact-container">
-                <div class="contact-card">
-                    <i class="fa-solid fa-location-dot contact-icon"></i>
-                    <h3>Location</h3>
-                    <p>Todkar Garden 1st floor bibvewadi,Gangadham Road<br>Oppo. Natural Ice Cream. Pune.</p>
-                </div>
+            <div class="contact-container" style="max-width: 1200px;">
                 <div class="contact-card">
                     <i class="fa-solid fa-phone contact-icon"></i>
-                    <h3>Phone</h3>
-                    <p>+91 7200764076 <br>+91 7385455276</p>
+                    <h3>Phone & Email</h3>
+                    <p><i class="fa-solid fa-phone"></i> +91 9545945353</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 7200764076</p>
+                    <p><i class="fa-solid fa-phone"></i> +91 7385455276</p>
+                    <p style="margin-top: 1rem;"><i class="fa-solid fa-envelope"></i> info@s3fitness.com</p>
                 </div>
+                <div class="contact-card">
+                    <i class="fa-solid fa-clock contact-icon"></i>
+                    <h3>Working Hours</h3>
+                    <p><strong>Everyday (Mon - Sun):</strong><br> 6:00 AM - 10:00 PM</p>
+                </div>
+
                 <div class="contact-card owner-card">
                     <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=150"
                         alt="Owner" class="owner-img">
@@ -115,19 +123,22 @@
                     <p>Former IFBB Pro and Lead Dietitian. Contact for business inquiries.</p>
                     <p class="text-muted">ajinkya@s3fitness.com</p>
                 </div>
-                <div class="contact-card owner-card">
-                    <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?auto=format&fit=crop&q=80&w=150"
-                        alt="Owner" class="owner-img">
-                    <h3>Co-Owner</h3>
-                    <h4 class="accent">Aniket Hundare</h4>
-                    <p>Former IFBB Pro and Lead Dietitian. Contact for business inquiries.</p>
-                    <p class="text-muted">aniket@s3fitness.com</p>
+
+                <div class="contact-card location-card" style="grid-column: 1 / -1;">
+                    <i class="fa-solid fa-location-dot contact-icon"></i>
+                    <h3>Location</h3>
+                    <p>Todkar Garden 1st floor bibvewadi,Gangadham Road<br>Oppo. Natural Ice Cream. Pune.</p>
+                    <div style="margin-top: 1.5rem; border-radius: 12px; overflow: hidden; height: 350px;">
+                        <iframe style="height: 100%; width: 100%; border:0;"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d633.9308399455449!2d73.86547626124529!3d18.481105055339096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2ebf2793e9a7d%3A0x52e8474be765b6cc!2sS3%20Fitness%20%26%20Crossfit%20Club%20%2C%20Bibwewadi!5e0!3m2!1sen!2sin!4v1775375773511!5m2!1sen!2sin"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 2. LOGIN / DASHBOARD VIEW -->
-        <section id="login-view" class="view">
+        <section id="login-view" class="view reveal">
             <div class="form-wrapper">
                 <div class="form-container" id="login-form-container">
                     <h2>Member Login</h2>
@@ -135,11 +146,11 @@
                     <form id="login-form">
                         <div class="input-group">
                             <label>Email Address</label>
-                            <input type="email" placeholder="you@example.com" required id="login-email">
+                            <input type="email" placeholder="enter your email id" required id="login-email">
                         </div>
                         <div class="input-group">
                             <label>Password</label>
-                            <input type="password" placeholder="••••••••" required id="login-password">
+                            <input type="password" placeholder="enter your password" required id="login-password">
                         </div>
                         <button type="submit" class="btn-primary full-width">Sign In</button>
                     </form>
@@ -153,15 +164,24 @@
                     <form id="register-form">
                         <div class="input-group">
                             <label>Full Name</label>
-                            <input type="text" placeholder="John Doe" required id="reg-name">
+                            <input type="text" placeholder="enter your name" required id="reg-name">
+                        </div>
+                        <div class="input-group">
+                            <label>Age</label>
+                            <input type="number" placeholder="enter your age" required id="reg-age" min="10" max="100">
+                        </div>
+                        <div class="input-group">
+                            <label>Mobile Number</label>
+                            <input type="tel" placeholder="Your Mobile Number" required id="reg-mobile"
+                                pattern="[0-9]{10}">
                         </div>
                         <div class="input-group">
                             <label>Email Address</label>
-                            <input type="email" placeholder="you@example.com" required id="reg-email">
+                            <input type="email" placeholder="enter your email id" required id="reg-email">
                         </div>
                         <div class="input-group">
                             <label>Password</label>
-                            <input type="password" placeholder="••••••••" required id="reg-password">
+                            <input type="password" placeholder="enter your password" required id="reg-password">
                         </div>
                         <button type="submit" class="btn-primary full-width">Register</button>
                     </form>
@@ -178,68 +198,71 @@
                     <div class="dash-stats" id="dash-stats-container">
                         <!-- Populated by JS -->
                     </div>
-
-                    <div class="debug-controls"
-                        style="margin-top: 2rem; padding: 1rem; border: 1px dashed var(--border); border-radius: 8px;">
-                        <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Debug: Toggle User State</h4>
-                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                            <button class="btn-outline small" onclick="app.setMockState('active')">Active</button>
-                            <button class="btn-outline small" onclick="app.setMockState('expired')">Expired</button>
-                            <button class="btn-outline small" onclick="app.setMockState('no_plan')">No Plan</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 3. MEMBERSHIP VIEW -->
-        <section id="membership-view" class="view">
+        <section id="membership-view" class="view reveal">
             <div class="section-title">
                 <h2>Choose Your <span class="accent">Weapon</span></h2>
                 <p>Unlock your growth with the right plan.</p>
             </div>
-            <div class="pricing-table">
+            <div class="pricing-table" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
                 <div class="plan-card">
-                    <h3>BASIC</h3>
-                    <div class="price">₹2,499<span>/mo</span></div>
+                    <h3>1 MONTH</h3>
+                    <div class="price">₹1,500<span>/mo</span></div>
                     <ul>
                         <li><i class="fa-solid fa-check"></i> Gym Floor Access</li>
                         <li><i class="fa-solid fa-check"></i> Basic Equipment</li>
                         <li><i class="fa-solid fa-xmark text-muted"></i> Group Classes</li>
                         <li><i class="fa-solid fa-xmark text-muted"></i> Personal Trainer</li>
                     </ul>
-                    <button class="btn-outline full-width" onclick="app.selectPlan('BASIC', '2499')">Select
+                    <button class="btn-outline full-width" onclick="app.selectPlan('1 MONTH', '1500')">Select
+                        Plan</button>
+                </div>
+                <div class="plan-card">
+                    <h3>3 MONTHS</h3>
+                    <div class="price">₹3,500<span>/total</span></div>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i> Full Gym Access</li>
+                        <li><i class="fa-solid fa-check"></i> Some Group Classes</li>
+                        <li><i class="fa-solid fa-xmark text-muted"></i> Personal Trainer</li>
+                        <li><i class="fa-solid fa-xmark text-muted"></i> Custom Diet Plan</li>
+                    </ul>
+                    <button class="btn-outline full-width" onclick="app.selectPlan('3 MONTHS', '3500')">Select
                         Plan</button>
                 </div>
                 <div class="plan-card featured">
                     <div class="badge">MOST POPULAR</div>
-                    <h3>PRO</h3>
-                    <div class="price">₹4,999<span>/mo</span></div>
+                    <h3>6 MONTHS</h3>
+                    <div class="price">₹6,500<span>/total</span></div>
                     <ul>
                         <li><i class="fa-solid fa-check"></i> Full Gym Access</li>
                         <li><i class="fa-solid fa-check"></i> All Group Classes</li>
                         <li><i class="fa-solid fa-check"></i> Towel Service</li>
                         <li><i class="fa-solid fa-xmark text-muted"></i> Personal Trainer</li>
                     </ul>
-                    <button class="btn-primary full-width" onclick="app.selectPlan('PRO', '4999')">Select Plan</button>
+                    <button class="btn-primary full-width" onclick="app.selectPlan('6 MONTHS', '6500')">Select
+                        Plan</button>
                 </div>
                 <div class="plan-card">
-                    <h3>ELITE</h3>
-                    <div class="price">₹8,499<span>/mo</span></div>
+                    <h3>1 YEAR</h3>
+                    <div class="price">₹11,000<span>/total</span></div>
                     <ul>
-                        <li><i class="fa-solid fa-check"></i> 24/7 Unlimited Access</li>
+                        <li><i class="fa-solid fa-check"></i> Full Day Access</li>
                         <li><i class="fa-solid fa-check"></i> All Classes & Spa</li>
                         <li><i class="fa-solid fa-check"></i> 4 PT Sessions/mo</li>
                         <li><i class="fa-solid fa-check"></i> Custom Diet Plan</li>
                     </ul>
-                    <button class="btn-outline full-width" onclick="app.selectPlan('ELITE', '8499')">Select
+                    <button class="btn-outline full-width" onclick="app.selectPlan('1 YEAR', '11000')">Select
                         Plan</button>
                 </div>
             </div>
         </section>
 
         <!-- 4. WORKOUTS VIEW -->
-        <section id="workouts-view" class="view">
+        <section id="workouts-view" class="view reveal">
             <div class="section-title">
                 <h2>Workout <span class="accent">Programs</span></h2>
                 <p>Curated routines for every experience level.</p>
@@ -253,8 +276,10 @@
             <div class="tab-content active" id="beginner-workout">
                 <div class="program-grid">
                     <div class="program-card">
-                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800"
-                            alt="Beginner Full Body">
+                        <div class="program-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800"
+                                alt="Beginner Full Body">
+                        </div>
                         <div class="program-info">
                             <h3>Foundation Full Body</h3>
                             <p>3 days/week. Focus on form and building base strength.</p>
@@ -263,11 +288,15 @@
                                 <li>Push-ups (3xMax)</li>
                                 <li>Dumbbell Rows (3x10)</li>
                             </ul>
+                            <button class="btn-outline full-width" style="margin-top: 1rem;"
+                                onclick="app.viewProgramDetails('Foundation Full Body')">View Details</button>
                         </div>
                     </div>
                     <div class="program-card">
-                        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=800"
-                            alt="Core Basics">
+                        <div class="program-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&q=80&w=800"
+                                alt="Core Basics">
+                        </div>
                         <div class="program-info">
                             <h3>Core & Cardio Basics</h3>
                             <p>2 days/week. Build stamina and a solid core.</p>
@@ -276,6 +305,8 @@
                                 <li>Planks (3x30 sec)</li>
                                 <li>Russian Twists (3x15)</li>
                             </ul>
+                            <button class="btn-outline full-width" style="margin-top: 1rem;"
+                                onclick="app.viewProgramDetails('Core & Cardio Basics')">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -284,8 +315,10 @@
             <div class="tab-content" id="advanced-workout">
                 <div class="program-grid">
                     <div class="program-card">
-                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&q=80&w=800"
-                            alt="Advanced Hypertrophy">
+                        <div class="program-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&q=80&w=800"
+                                alt="Advanced Hypertrophy">
+                        </div>
                         <div class="program-info">
                             <h3>Push/Pull/Legs Hypertrophy</h3>
                             <p>6 days/week. Maximum volume for serious muscle gain.</p>
@@ -294,11 +327,15 @@
                                 <li>Deadlifts (4x5)</li>
                                 <li>Heavy Squats (5x5)</li>
                             </ul>
+                            <button class="btn-outline full-width" style="margin-top: 1rem;"
+                                onclick="app.viewProgramDetails('Push/Pull/Legs Hypertrophy')">View Details</button>
                         </div>
                     </div>
                     <div class="program-card">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800"
-                            alt="Powerlifting">
+                        <div class="program-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800"
+                                alt="Powerlifting">
+                        </div>
                         <div class="program-info">
                             <h3>5/3/1 Powerlifting</h3>
                             <p>4 days/week. Percentage-based strength progression.</p>
@@ -307,6 +344,8 @@
                                 <li>Secondary Barbell (5x10)</li>
                                 <li>Heavy Accessories</li>
                             </ul>
+                            <button class="btn-outline full-width" style="margin-top: 1rem;"
+                                onclick="app.viewProgramDetails('5/3/1 Powerlifting')">View Details</button>
                         </div>
                     </div>
                 </div>
@@ -314,7 +353,7 @@
         </section>
 
         <!-- 5. DIET VIEW -->
-        <section id="diet-view" class="view">
+        <section id="diet-view" class="view reveal">
             <div class="section-title">
                 <h2>Fuel Your <span class="accent">Machine</span></h2>
                 <p>Nutrition is 80% of the game.</p>
@@ -333,17 +372,17 @@
                     </div>
                     <div class="meals-grid">
                         <div class="meal-card">
-                            <h4>Breakfast</h4>
+                            <h4><i class="fa-solid fa-mug-saucer text-muted"></i> Breakfast</h4>
                             <p>Egg white omelette with spinach & 1 slice whole-wheat toast.</p>
                             <span class="cals">350 kcal</span>
                         </div>
                         <div class="meal-card">
-                            <h4>Lunch</h4>
+                            <h4><i class="fa-solid fa-bowl-food text-muted"></i> Lunch</h4>
                             <p>Grilled chicken breast, massive green salad, light vinaigrette.</p>
                             <span class="cals">400 kcal</span>
                         </div>
                         <div class="meal-card">
-                            <h4>Dinner</h4>
+                            <h4><i class="fa-solid fa-utensils text-muted"></i> Dinner</h4>
                             <p>Baked salmon, roasted asparagus, 1/2 cup quinoa.</p>
                             <span class="cals">450 kcal</span>
                         </div>
@@ -359,17 +398,17 @@
                     </div>
                     <div class="meals-grid">
                         <div class="meal-card">
-                            <h4>Breakfast</h4>
+                            <h4><i class="fa-solid fa-mug-saucer text-muted"></i> Breakfast</h4>
                             <p>4 whole eggs, 1.5 cups oatmeal with peanut butter and banana.</p>
                             <span class="cals">850 kcal</span>
                         </div>
                         <div class="meal-card">
-                            <h4>Lunch</h4>
+                            <h4><i class="fa-solid fa-bowl-food text-muted"></i> Lunch</h4>
                             <p>8oz Sirloin steak, 2 cups white rice, mixed vegetables.</p>
                             <span class="cals">950 kcal</span>
                         </div>
                         <div class="meal-card">
-                            <h4>Dinner</h4>
+                            <h4><i class="fa-solid fa-utensils text-muted"></i> Dinner</h4>
                             <p>Large chicken pasta with olive oil, pesto, and garlic bread.</p>
                             <span class="cals">1100 kcal</span>
                         </div>
@@ -379,7 +418,7 @@
         </section>
 
         <!-- 6. SUBSCRIPTION VIEW -->
-        <section id="subscription-view" class="view">
+        <section id="subscription-view" class="view reveal">
             <div class="section-title">
                 <h2>Checkout & <span class="accent">Subscription</span></h2>
                 <p>Finalize your membership and start grinding.</p>
@@ -413,6 +452,10 @@
                         <label class="pay-method-label">
                             <input type="radio" name="payment-method" value="qr">
                             <span><i class="fa-solid fa-qrcode"></i> UPI / QR Code</span>
+                        </label>
+                        <label class="pay-method-label">
+                            <input type="radio" name="payment-method" value="upi-id">
+                            <span><i class="fa-solid fa-at"></i> UPI ID</span>
                         </label>
                     </div>
 
@@ -449,9 +492,61 @@
                         <button class="btn-primary full-width large" onclick="app.completePayment()">I Have
                             Paid</button>
                     </div>
+
+                    <div id="upi-id-payment-section" class="hidden">
+                        <p class="upi-instructions">Enter your UPI ID (e.g. user@okicici, mobile@paytm)</p>
+                        <div class="input-group">
+                            <label>UPI ID</label>
+                            <input type="text" placeholder="example@upi" id="upi-id-input" required>
+                        </div>
+                        <div class="qr-amount text-muted">Amount to pay: <strong class="accent"
+                                id="upi-amount-display">₹4,999.00</strong></div>
+                        <button class="btn-primary full-width large" onclick="app.completeUpiIdPayment()">Verify & Pay</button>
+                        <p class="text-xs text-muted" style="margin-top: 1rem; font-size: 0.75rem; text-align: center;">A payment request will be sent to your UPI app.</p>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- SUCCESS OVERLAY -->
+        <div id="success-overlay" class="hidden">
+            <div class="success-card">
+                <div class="success-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h1 class="success-title">Congratulations!</h1>
+                <p id="success-msg">You have taken the membership of <span id="success-plan-name" class="accent">PRO TIER</span></p>
+                
+                <div class="membership-details">
+                    <div class="detail-row">
+                        <span>Plan Name:</span>
+                        <strong id="detail-plan">PRO TIER</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Amount Paid:</span>
+                        <strong id="detail-amount">₹4,999.00</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Start Date:</span>
+                        <strong id="detail-start">Oct 25, 2025</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>End Date:</span>
+                        <strong id="detail-end">Oct 25, 2026</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Status:</span>
+                        <strong class="active-status">ACTIVE</strong>
+                    </div>
+                </div>
+
+                <div class="transaction-info">
+                    <p>Transaction ID: <span id="transaction-id">#S3FIT-8293-AX20</span></p>
+                </div>
+
+                <button class="btn-primary" onclick="app.closeSuccessOverlay()">GO TO DASHBOARD</button>
+            </div>
+        </div>
 
     </main>
 

@@ -30,6 +30,20 @@ const app = {
         this.cartTotal = document.getElementById('cart-total');
         this.paymentQr = document.getElementById('payment-qr');
         this.qrAmountDisplay = document.getElementById('qr-amount-display');
+        
+        // New Payment Elements
+        this.upiIdPaymentSection = document.getElementById('upi-id-payment-section');
+        this.upiIdInput = document.getElementById('upi-id-input');
+        this.upiAmountDisplay = document.getElementById('upi-amount-display');
+        
+        // Success Overlay
+        this.successOverlay = document.getElementById('success-overlay');
+        this.successPlanName = document.getElementById('success-plan-name');
+        this.detailPlan = document.getElementById('detail-plan');
+        this.detailAmount = document.getElementById('detail-amount');
+        this.detailStart = document.getElementById('detail-start');
+        this.detailEnd = document.getElementById('detail-end');
+        this.transactionId = document.getElementById('transaction-id');
     },
 
     bindEvents() {
@@ -56,16 +70,24 @@ const app = {
         if (this.paymentMethodRadios) {
             this.paymentMethodRadios.forEach(radio => {
                 radio.addEventListener('change', (e) => {
+                    // Hide all sections first
+                    if (this.cardPaymentForm) this.cardPaymentForm.classList.add('hidden');
+                    if (this.qrPaymentSection) this.qrPaymentSection.classList.add('hidden');
+                    if (this.upiIdPaymentSection) this.upiIdPaymentSection.classList.add('hidden');
+
                     if (e.target.value === 'qr') {
-                        if (this.cardPaymentForm) this.cardPaymentForm.classList.add('hidden');
                         if (this.qrPaymentSection) this.qrPaymentSection.classList.remove('hidden');
+                    } else if (e.target.value === 'upi-id') {
+                        if (this.upiIdPaymentSection) this.upiIdPaymentSection.classList.remove('hidden');
                     } else {
-                        if (this.qrPaymentSection) this.qrPaymentSection.classList.add('hidden');
                         if (this.cardPaymentForm) this.cardPaymentForm.classList.remove('hidden');
                     }
                 });
             });
         }
+
+        // Initialize Scroll Reveal
+        this.initScrollReveal();
 
         // Tabs (Workouts & Diet)
         this.tabBtns.forEach(btn => {
@@ -105,7 +127,12 @@ const app = {
                         this.renderDashboard();
                     } else {
                         const error = await response.json();
-                        alert('Login Failed: ' + (error.message || 'Invalid credentials'));
+                        if (error.message === 'User not found') {
+                            alert('Details not found in database. Please register.');
+                            this.toggleAuthMode('register');
+                        } else {
+                            alert('Login Failed: ' + (error.message || 'Invalid credentials'));
+                        }
                     }
                 } catch (err) {
                     console.error('Error logging in:', err);
@@ -119,6 +146,8 @@ const app = {
             this.registerForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('reg-name').value;
+                const age = document.getElementById('reg-age').value;
+                const mobile = document.getElementById('reg-mobile').value;
                 const email = document.getElementById('reg-email').value;
                 const password = document.getElementById('reg-password').value;
 
@@ -126,7 +155,7 @@ const app = {
                     const response = await fetch('http://localhost:8080/api/users/register', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ name, email, password })
+                        body: JSON.stringify({ name, age, mobile, email, password })
                     });
 
                     if (response.ok) {
@@ -157,6 +186,7 @@ const app = {
     mockUserState: {
         id: null,
         email: '',
+        mobile: '',
         name: 'Alex',
         status: 'active', // 'active', 'expired', 'no_plan'
         plan: 'PRO TIER',
@@ -170,6 +200,7 @@ const app = {
         this.mockUserState.id = user.id;
         this.mockUserState.name = user.name;
         this.mockUserState.email = user.email;
+        this.mockUserState.mobile = user.mobile || '';
         this.mockUserState.status = user.status || 'no_plan';
         this.mockUserState.plan = user.plan || 'None';
         this.mockUserState.startDate = user.startDate || 'N/A';
@@ -252,56 +283,135 @@ const app = {
     },
 
     selectPlan(planName, amountStr) {
+        if (!this.mockUserState.id) {
+            alert('Please login first to access the gym & subscribe to a plan.');
+            this.navigate('login-view');
+            return;
+        }
+
         if (this.cartPlanName) this.cartPlanName.innerText = planName + ' TIER';
         if (this.cartTotal) this.cartTotal.innerText = '₹' + amountStr + '.00';
         if (this.qrAmountDisplay) this.qrAmountDisplay.innerText = '₹' + amountStr + '.00';
+        if (this.upiAmountDisplay) this.upiAmountDisplay.innerText = '₹' + amountStr + '.00';
 
         if (this.paymentQr) {
-            const upiStr = `upi://pay?pa=titanfitness@upi&pn=Titan+Fitness&am=${amountStr}.00&cu=INR`;
+            const upiStr = `upi://pay?pa=prathamsurve191-1@okicici&pn=S3+Fitness&am=${amountStr}.00&cu=INR`;
             this.paymentQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiStr)}`;
         }
 
         this.navigate('subscription-view');
     },
 
+    viewProgramDetails(programName) {
+        alert("Detailed routine for '" + programName + "' will be available soon! Ensure your membership is active to access premium routines.");
+    },
+
     completePayment() {
         if (!this.mockUserState.id) {
-            alert('Payment Processed Locally! You are not logged in so the plan will not be saved permanently to your account.');
+            alert('Please login first to process payment.');
             this.navigate('login-view');
-            if (this.loginFormContainer) this.loginFormContainer.classList.add('hidden');
-            if (this.userDashboard) this.userDashboard.classList.remove('hidden');
-            if (this.cartPlanName) {
-                this.mockUserState.plan = this.cartPlanName.innerText;
-                this.mockUserState.status = 'active';
-                this.renderDashboard();
-            }
             return;
         }
 
-        if (this.cartPlanName) {
-            const plan = this.cartPlanName.innerText;
+        const plan = this.cartPlanName ? this.cartPlanName.innerText : 'PRO TIER';
+        const amount = this.cartTotal ? this.cartTotal.innerText : '₹4,999.00';
+
+        // Simulate network delay
+        const btn = event.target.closest('button') || document.querySelector('#card-payment-form button');
+        const originalText = btn.innerText;
+        btn.innerText = 'Processing...';
+        btn.disabled = true;
+
+        setTimeout(() => {
             fetch(`http://localhost:8080/api/users/${this.mockUserState.id}/subscription`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ plan: plan })
             }).then(res => res.json()).then(user => {
                 this.updateUserStateFromDb(user);
-                alert('Payment Processed Successfully! Plan activated on your account.');
-                this.navigate('login-view');
-                if (this.loginFormContainer) this.loginFormContainer.classList.add('hidden');
-                if (this.userDashboard) this.userDashboard.classList.remove('hidden');
-                this.renderDashboard();
+                this.showSuccessMessage(plan, amount);
             }).catch(err => {
                 console.error(err);
-                alert('Subscribed locally, but failed to sync to backend.');
-                this.navigate('login-view');
-                if (this.loginFormContainer) this.loginFormContainer.classList.add('hidden');
-                if (this.userDashboard) this.userDashboard.classList.remove('hidden');
+                // Fallback for local testing
                 this.mockUserState.plan = plan;
                 this.mockUserState.status = 'active';
-                this.renderDashboard();
+                this.mockUserState.startDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const end = new Date();
+                end.setMonth(end.getMonth() + (plan.includes('1 MONTH') ? 1 : plan.includes('3 MONTH') ? 3 : plan.includes('6 MONTH') ? 6 : 12));
+                this.mockUserState.endDate = end.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                this.showSuccessMessage(plan, amount);
+            }).finally(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
             });
+        }, 1500);
+    },
+
+    completeUpiIdPayment() {
+        if (!this.mockUserState.id) {
+            alert('Please login first.');
+            this.navigate('login-view');
+            return;
         }
+
+        const upiId = this.upiIdInput.value;
+        if (!upiId || !upiId.includes('@')) {
+            alert('Please enter a valid UPI ID');
+            return;
+        }
+
+        const plan = this.cartPlanName ? this.cartPlanName.innerText : 'PRO TIER';
+        const amount = this.cartTotal ? this.cartTotal.innerText : '₹4,999.00';
+
+        // Simulate UPI Request
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = 'Sending Request...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerText = 'Waiting for mobile confirmation...';
+            setTimeout(() => {
+                // Assume user confirmed on mobile
+                this.completePayment();
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }, 2500);
+        }, 1500);
+    },
+
+    showSuccessMessage(plan, amount) {
+        if (this.successPlanName) this.successPlanName.innerText = plan;
+        if (this.detailPlan) this.detailPlan.innerText = plan;
+        if (this.detailAmount) this.detailAmount.innerText = amount;
+        if (this.detailStart) this.detailStart.innerText = this.mockUserState.startDate;
+        if (this.detailEnd) this.detailEnd.innerText = this.mockUserState.endDate;
+        if (this.transactionId) this.transactionId.innerText = '#S3FIT-' + Math.floor(Math.random() * 9000 + 1000) + '-TX' + Math.floor(Math.random() * 90 + 10);
+
+        if (this.successOverlay) this.successOverlay.classList.remove('hidden');
+    },
+
+    closeSuccessOverlay() {
+        if (this.successOverlay) this.successOverlay.classList.add('hidden');
+        this.navigate('login-view');
+        this.renderDashboard();
+    },
+
+    initScrollReveal() {
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                }
+            });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
     },
 
     navigate(viewId) {
